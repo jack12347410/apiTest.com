@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - 6500:5432
+#    env_file:
+#      - ./app.env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+#  api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: api
+#    environment:
+#      - POSTGRES_HOST=postgres
+#      - POSTGRES_USER=sa
+#      - POSTGRES_PASSWORD=aa123456..
+#      - POSTGRES_DB=golang-gorm
+#      - POSTGRES_PORT=6500
+#      - PORT=5963
+#      - CLIENT_ORIGIN=http://localhost:3000
+#    container_name: api
+#    ports:
+#      - 5963:8000
+#    depends_on:
+#      - postgres
+volumes:
+  postgres:
