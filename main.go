@@ -3,6 +3,8 @@ package main
 import (
 	"apiTest.com/controllers"
 	"apiTest.com/initializers"
+	"apiTest.com/repositories"
+	"apiTest.com/services"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -22,6 +24,11 @@ func main() {
 	if err != nil {
 		log.Fatal("? Could not load environment variables", err)
 	}
+
+	testRepository := repositories.NewTestRepository(initializers.DB)
+	testService := services.NewTestService(testRepository)
+	testController := controllers.NewTestController(testService)
+
 	router := server.Group("/api")
 
 	router.GET("healthchecker", func(context *gin.Context) {
@@ -31,11 +38,17 @@ func main() {
 
 	testGroup := router.Group("/tests")
 	{
-		testGroup.POST("", controllers.CreateTest)
-		testGroup.GET("", controllers.FindTests)
-		testGroup.GET("/:id", controllers.FindTests)
-		testGroup.PATCH("/:id", controllers.UpdateTest)
-		testGroup.DELETE("/:id", controllers.DeleteTest)
+		//testGroup.POST("", controllers.CreateTest)
+		//testGroup.GET("", controllers.FindTests)
+		//testGroup.GET("/:id", controllers.FindTests)
+		//testGroup.PATCH("/:id", controllers.UpdateTest)
+		//testGroup.DELETE("/:id", controllers.DeleteTest)
+
+		testGroup.POST("", testController.CreateTest)
+		testGroup.GET("", testController.FindTests)
+		testGroup.GET("/:id", testController.FindOneTest)
+		testGroup.PATCH("/:id", testController.UpdateTest)
+
 	}
 
 	log.Fatal(server.Run(":" + config.ServerPort))
