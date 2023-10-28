@@ -1,2 +1,3 @@
 # apiTest.com
- go CRUD Api Test, docker, postgres, code fisrt
+ gorm / gin / docker / postgres
+ 
